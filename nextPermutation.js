@@ -4,39 +4,34 @@
  */
 var nextPermutation = function(nums) {
     
-    let swapValues = {};
+    let swapFunction = function (indexTo, indexWith) {                  // O(1)
+        // Bubble Sorting
+        let temp = nums[indexTo];
+        nums[indexTo] = nums[indexWith];
+        nums[indexWith] = temp;
+    }
     
-    let swapValuesFunction = function () {
-        let i =0, n = nums.length
-        while(i < n) {
-            let j = n -1;
-            while(i < j) {
-                if(nums[i] < nums[j]) {
-                    swapValues = {startIndex: i, endIndex: j};
-                    break;
-                }
-                j--;
-            }
-            i++;
+    let reverseFunction = function (indexFrom, indexTo) {               // O(lg n)
+        while(indexFrom <= indexTo) {
+            swapFunction(indexFrom++, indexTo--);
         }
     }
     
-    swapValuesFunction();
-    if(!swapValues.hasOwnProperty('startIndex')) {
-        return nums.reverse();
-    } else {
-        //Bubble sort
-        let tmpStart = nums[swapValues.startIndex];
-        nums[swapValues.startIndex] = nums[swapValues.endIndex];
-        nums[swapValues.endIndex] = tmpStart;
-
-        
-        //Sort the end digits.
-        let sortedSeq = nums.slice(swapValues.startIndex +1).sort((a, b) => a-b);
-        nums.map((n,  i) => {
-            if(i > swapValues.startIndex) {
-                nums[i] = sortedSeq[i - swapValues.startIndex -1];
-            }
-        })
+    let i = nums.length -2;
+    while(i >= 0 && nums[i] >= nums[i+1]) {                             // O(lg n) ~ O(n)
+        i--;
     }
+    
+    if( i >= 0) {
+        let j = nums.length -1;
+        while(nums[j] <= nums[i]) {                                     // O(lg n) ~ O(n)
+            j--;
+        }
+        swapFunction(i, j);
+    }
+    
+    reverseFunction( i +1, nums.length -1);                             
 };
+
+//Time Complexity - O(n)
+//Space Complexity - O(1)
