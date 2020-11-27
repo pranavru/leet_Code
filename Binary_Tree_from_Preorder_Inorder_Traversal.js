@@ -14,7 +14,8 @@
 var buildTree = function(preorder, inorder) {
     if(!inorder || inorder.length < 1) { return null; }
     
-    let indexOf = (num) => { 
+    //Returns the index value of a number
+    let indexOf = (num) => {                            // O(lg n)
         let i = 0,  j = inorder.length -1;
         while(i <= j) {
             if(inorder[i] === num) {
@@ -28,14 +29,9 @@ var buildTree = function(preorder, inorder) {
         return;
     };
     
-    let root = new TreeNode(preorder.shift());
-    
-    let indexOfRoot = indexOf(root.val);
-    let leftTree = inorder.slice(0, indexOfRoot);
-    let rightTree = inorder.slice(indexOfRoot +1);
-    
-    root.left = buildTree(preorder,leftTree )
-    root.right = buildTree(preorder, rightTree)
+    //Locates the root value
+    let rootValue = preorder.shift(), indexOfRoot = inorder.indexOf(rootValue);
 
-    return root;    
+    // Recursive function to return root value
+    return new TreeNode(rootValue, buildTree(preorder,inorder.slice(0, indexOfRoot)), buildTree(preorder, inorder.slice(indexOfRoot +1)));
 };
