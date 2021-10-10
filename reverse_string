@@ -8,12 +8,10 @@ const changeReference = (arr, initial, last) => {
     // Checks for the index if greater than last, indicates all of the array elements are traversed and can escape the loop.
     if(initial > last) return arr;
 
-    // Mutating Array based on the index helps in sorting the array in place.
-    const tempVar = arr[initial];
-    arr[initial++] = arr[last];
-    arr[last--] = tempVar;
+    // Mutating Array based on the index using Destructuring assignment helps in sorting the array in place.
+    [arr[initial], arr[last]] = [arr[last], arr[initial]];
     
-    return changeReference(arr, initial, last);
+    return changeReference(arr, ++initial, --last);
 }
 
 var reverseString = function(s) {
