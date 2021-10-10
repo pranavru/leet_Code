@@ -1,0 +1,27 @@
+/**
+ * @param {character[]} s
+ * @return {void} Do not return anything, modify s in-place instead.
+ */
+
+
+const changeReference = (arr, initial, last) => {
+    // Checks for the index if greater than last, indicates all of the array elements are traversed and can escape the loop.
+    if(initial > last) return arr;
+
+    // Mutating Array based on the index helps in sorting the array in place.
+    const tempVar = arr[initial];
+    arr[initial++] = arr[last];
+    arr[last--] = tempVar;
+    
+    return changeReference(arr, initial, last);
+}
+
+var reverseString = function(s) {
+    if(s.length === 1) return s;
+    
+    const initialIndex = 0;
+    const lastIndex = s.length -1;
+    
+    // recursive approach to solve reverse string problem.
+    return changeReference(s, initialIndex, lastIndex);
+};
